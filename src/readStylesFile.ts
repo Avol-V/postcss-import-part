@@ -59,6 +59,11 @@ function readStylesFile(
 			.then(
 				( result: postcss.Result ): postcss.Root =>
 				{
+					if ( !result.root )
+					{
+						throw new Error( `Empty import root in "${absolutePath}".` );
+					}
+					
 					cache.set(
 						absolutePath,
 						{
