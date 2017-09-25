@@ -1,6 +1,6 @@
 {
   "name": "postcss-import-part",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "PostCSS plugin to import external file content at any place (like partial import)",
   "author": "Andrey Avol Volynkin <code@m18.ru>",
   "license": "MIT",
