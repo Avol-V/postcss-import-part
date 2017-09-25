@@ -78,6 +78,13 @@ function main( userOptions: Partial<PluginOptions> ): Transformer
 	const options: PluginOptions = {...DEFAULT_OPTIONS, ...userOptions};
 	
 	options.root = resolve( options.root );
+	options.paths = (
+		Array.isArray( options.paths )
+		? options.paths
+		: [options.paths]
+	).map(
+		( path ) => resolve( options.root, path ),
+	);
 	
 	const resultPromises: Array<Promise<void>> = [];
 	
