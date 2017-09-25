@@ -11,11 +11,11 @@ import resolveUri from './resolveUri';
 /**
  * Name of this plugin.
  */
-const PLUGIN_NAME = 'postcss-import-json';
+const PLUGIN_NAME = 'postcss-import-part';
 /**
  * Name of the plugin At-Rule.
  */
-const RULE_NAME = 'import-json';
+const RULE_NAME = 'import-part';
 
 /**
  * Default plugin options.
