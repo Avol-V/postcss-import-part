@@ -11,6 +11,8 @@ To import adjacent file, path should be relative (like `./_part.css`). Can impor
 
 *Currently recursive imports are not allowed.*
 
+You can also specify Parsers for imported files by extension.
+
 ## Syntax
 
 ```
@@ -153,13 +155,13 @@ Function arguments:
 [npm]: https://img.shields.io/npm/v/postcss-import-part.svg
 [npm-url]: https://npmjs.com/package/postcss-import-part
 
-[deps]: https://img.shields.io/david/m18ru/postcss-import-part.svg
-[deps-url]: https://david-dm.org/m18ru/postcss-import-part
+[deps]: https://img.shields.io/david/Avol-V/postcss-import-part.svg
+[deps-url]: https://david-dm.org/Avol-V/postcss-import-part
 
-[deps-dev]: https://img.shields.io/david/dev/m18ru/postcss-import-part.svg
-[deps-dev-url]: https://david-dm.org/m18ru/postcss-import-part?type=dev
+[deps-dev]: https://img.shields.io/david/dev/Avol-V/postcss-import-part.svg
+[deps-dev-url]: https://david-dm.org/Avol-V/postcss-import-part?type=dev
 
-[build]: https://img.shields.io/travis/m18ru/postcss-import-part.svg
-[build-url]: https://travis-ci.org/m18ru/postcss-import-part
+[build]: https://img.shields.io/travis/Avol-V/postcss-import-part.svg
+[build-url]: https://travis-ci.org/Avol-V/postcss-import-part
 
 [PostCSS]: https://github.com/postcss/postcss

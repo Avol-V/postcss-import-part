@@ -1,37 +1,39 @@
 {
   "name": "postcss-import-part",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "PostCSS plugin to import external file content at any place (like partial import)",
-  "author": "Andrey Avol Volynkin <code@m18.ru>",
+  "author": "Andrey Avol Volynkin",
   "license": "MIT",
-  "homepage": "https://github.com/m18ru/postcss-import-part#readme",
+  "homepage": "https://github.com/Avol-V/postcss-import-part#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/m18ru/postcss-import-part.git"
+    "url": "git+https://github.com/Avol-V/postcss-import-part.git"
   },
   "bugs": {
-    "url": "https://github.com/m18ru/postcss-import-part/issues"
+    "url": "https://github.com/Avol-V/postcss-import-part/issues"
   },
   "keywords": [
     "postcss-plugin",
     "postcss",
     "css",
     "import",
-    "json",
     "partial",
-    "import-json",
-    "variables",
-    "variable"
+    "partial-import",
+    "import-partial"
   ],
+  "engines": {
+    "node": ">=8"
+  },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "engines": {
-    "node": ">=6"
-  },
+  "files": [
+    "lib",
+    "src"
+  ],
   "scripts": {
     "test": "npm run lint && npm run test:main",
-    "test:main": "cross-env TS_NODE_PROJECT=test/tsconfig.json mocha --compilers ts:ts-node/register",
-    "lint:scripts-project": "tslint -c tslint-type-check.json -p tsconfig.json --type-check",
+    "test:main": "cross-env TS_NODE_PROJECT=test/tsconfig.json mocha --require ts-node/register \"test/**/*.ts\" ",
+    "lint:scripts-project": "tslint -c tslint-project.json -p tsconfig.json",
     "lint:scripts-other": "tslint \"{*.js,src/*.d.ts,test/*.ts}\"",
     "lint": "npm run lint:scripts-project && npm run lint:scripts-other",
     "clean": "rimraf lib",
@@ -40,22 +42,23 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "postcss": "^6.0.11",
-    "resolve": "^1.4.0",
-    "ts-fs": "^0.1.0"
+    "postcss": "^7.0.5",
+    "resolve": "^1.8.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.28",
-    "@types/resolve": "0.0.4",
-    "chai": "^4.1.2",
-    "cross-env": "^5.0.5",
-    "mocha": "^3.5.3",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.11.7",
+    "@types/resolve": "0.0.8",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "postcss-safe-parser": "^4.0.1",
+    "postcss-scss": "^2.0.0",
     "rimraf": "^2.6.2",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.7.0",
-    "tslint-config-m18": "^1.6.2",
-    "typescript": "^2.5.2"
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-avol": "^2.3.0",
+    "typescript": "^3.1.3"
   }
 }

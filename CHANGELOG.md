@@ -1,9 +1,21 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
+## [1.1.0] - 2018-10-14
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
-and this project adheres to [Semantic Versioning](http://semver.org/).
+### Added
+
+- Parser-by-filetype tests
+
+### Changed
+
+- Repository relocation
+- Packages updated
+- Codestyle changes
+- Node 8+ required
+
+### Deleted
+
+- `ts-fs` dependency
 
 ## [1.0.0] - 2017-09-25
 

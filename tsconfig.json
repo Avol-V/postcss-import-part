@@ -1,32 +1,40 @@
 {
 	"compilerOptions": {
+		"target": "es2017",
+		"lib": ["es2017"],
 		"module": "commonjs",
-		"moduleResolution": "node",
-		"target": "es2015",
-		"lib": ["es2015"],
-		"alwaysStrict": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"strictNullChecks": true,
-		"noFallthroughCasesInSwitch": true,
+		
+		"strict": true,
+		
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+		
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		
 		"noEmitOnError": true,
 		"newLine": "LF",
-		"forceConsistentCasingInFileNames": true,
 		"removeComments": false,
 		"declaration": true,
 		"sourceMap": true,
-		"importHelpers": true,
+		"importHelpers": false,
+		
 		"outDir": "./lib",
 		"rootDir": "./src/",
 		"baseUrl": "./src/"
 	},
-	"types": [
-		"node"
-	],
-	"files": [
-		"./src/index.ts"
+	"typeAcquisition": {
+		"include": [
+			"node"
+		]
+	},
+	"include": [
+		"./src/*.ts",
+		"./src/**/*.ts"
 	]
 }

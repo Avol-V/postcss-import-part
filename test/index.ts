@@ -2,10 +2,15 @@ import {expect} from 'chai';
 import {readFileSync} from 'fs';
 import 'mocha';
 import {resolve} from 'path';
-import * as postcss from 'postcss';
+import postcss from 'postcss';
 import importPart, {
 	PluginOptions,
 } from '../src/index';
+
+const parsers = {
+	'.wrongcss': require( 'postcss-safe-parser' ),
+	'.scss': require( 'postcss-scss' ),
+};
 
 describe(
 	'Import part',
@@ -36,6 +41,26 @@ describe(
 						? resolve( __dirname, path.substr( 2 ) )
 						: path
 					),
+				},
+			),
+		);
+		
+		it(
+			'should import safe-parser file',
+			() => check(
+				'parser-safe',
+				{
+					parsers,
+				},
+			),
+		);
+		
+		it(
+			'should import scss file',
+			() => check(
+				'parser-scss',
+				{
+					parsers,
 				},
 			),
 		);

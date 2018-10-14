@@ -1,6 +1,12 @@
 import {resolve} from 'path';
 import {
-	AcceptedPlugin, AtRule, Parse, plugin, Plugin, Result, Root, Syntax,
+	AcceptedPlugin,
+	AtRule,
+	Parse,
+	plugin,
+	Result,
+	Root,
+	Syntax,
 	Transformer,
 } from 'postcss';
 import getCssBaseDir from './getCssBaseDir';
@@ -73,7 +79,7 @@ export interface PluginOptions
  * 
  * @param userOptions Plugin options.
  */
-function main( userOptions: Partial<PluginOptions> ): Transformer
+function main( userOptions: Partial<PluginOptions> = {} ): Transformer
 {
 	const options: PluginOptions = {...DEFAULT_OPTIONS, ...userOptions};
 	
@@ -88,7 +94,7 @@ function main( userOptions: Partial<PluginOptions> ): Transformer
 	
 	const resultPromises: Array<Promise<void>> = [];
 	
-	const onAtRule = ( rule: AtRule, result: Result ): void =>
+	const onAtRule = ( rule: AtRule, result?: Result ): void =>
 	{
 		let params: ParsedParams;
 		
@@ -101,7 +107,7 @@ function main( userOptions: Partial<PluginOptions> ): Transformer
 			throw rule.error( error.message, {plugin: PLUGIN_NAME} );
 		}
 		
-		const onError = ( error: Error ) =>
+		const onError = ( error: Error ): never =>
 		{
 			throw rule.error( error.message, {plugin: PLUGIN_NAME} );
 		};
@@ -130,7 +136,7 @@ function main( userOptions: Partial<PluginOptions> ): Transformer
 		resultPromises.push( promise );
 	};
 	
-	return ( root: Root, result: Result ): Promise<void[]> =>
+	return (root, result) =>
 	{
 		root.walkAtRules(
 			RULE_NAME,
@@ -144,7 +150,7 @@ function main( userOptions: Partial<PluginOptions> ): Transformer
 /**
  * PostCSS plugin.
  */
-const postImportJsonPlugin: Plugin<Partial<PluginOptions>> = plugin(
+const importPart = plugin(
 	PLUGIN_NAME,
 	main,
 );
@@ -153,5 +159,5 @@ const postImportJsonPlugin: Plugin<Partial<PluginOptions>> = plugin(
  * Module.
  */
 export {
-	postImportJsonPlugin as default,
+	importPart as default,
 };

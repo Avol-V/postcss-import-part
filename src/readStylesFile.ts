@@ -1,7 +1,11 @@
+import Fs from 'fs';
 import {extname, resolve} from 'path';
-import * as postcss from 'postcss';
-import {readFile, stat, Stats} from 'ts-fs';
+import postcss from 'postcss';
+import {promisify} from 'util';
 import {PluginOptions} from './index';
+
+const readFile = promisify(Fs.readFile);
+const stat = promisify(Fs.stat);
 
 /**
  * Item in files cache.
@@ -22,74 +26,59 @@ const cache = new Map<string, CacheItem>();
  * 
  * @param path Path to styles file.
  */
-function readStylesFile(
-	path: string, postcssResult: postcss.Result, options: PluginOptions,
+async function readStylesFile(
+	path: string,
+	postcssResult: postcss.Result | undefined,
+	options: PluginOptions,
 ): Promise<postcss.Root>
 {
 	const absolutePath = resolve( path );
 	
-	const onStat = ( stats: Stats ): Promise<postcss.Root> =>
+	const fileStats = await stat( absolutePath );
+	const item = cache.get( absolutePath );
+	
+	if (
+		item
+		&& ( item.mtime.getTime() === fileStats.mtime.getTime() )
+	)
 	{
-		const item = cache.get( absolutePath );
-		
-		if (
-			item
-			&& ( item.mtime.getTime() === stats.mtime.getTime() )
-		)
+		return Promise.resolve( item.content );
+	}
+	
+	const fileContents = await readFile( absolutePath, 'utf8' );
+	
+	const extension = extname( path );
+	const parser = options.parsers[extension] || null;
+	
+	const result = postcss( options.plugins ).process(
+		fileContents,
 		{
-			return Promise.resolve( item.content );
-		}
-		
-		return readFile( absolutePath, 'utf8' )
-			.then( ( value ) => onFile( stats, value ) );
-	};
+			from: absolutePath,
+			parser,
+		},
+	);
 	
-	const onFile = ( {mtime}: Stats, value: string ): Promise<postcss.Root> =>
+	if ( !result.root )
 	{
-		const extension = extname( path );
-		const parser = options.parsers[extension] || null;
-		
-		return postcss( options.plugins ).process(
-			value,
-			{
-				from: absolutePath,
-				parser,
-			},
-		)
-			.then(
-				( result: postcss.Result ): postcss.Root =>
-				{
-					if ( !result.root )
-					{
-						throw new Error( `Empty import root in "${absolutePath}".` );
-					}
-					
-					cache.set(
-						absolutePath,
-						{
-							mtime,
-							content: result.root,
-						},
-					);
-					
-					postcssResult.messages = postcssResult.messages.concat(
-						result.messages,
-					);
-					
-					return result.root;
-				},
-			);
-	};
+		throw new Error( `Empty import root in "${absolutePath}".` );
+	}
 	
-	const onError = ( error: Error ) =>
+	cache.set(
+		absolutePath,
+		{
+			mtime: fileStats.mtime,
+			content: result.root,
+		},
+	);
+	
+	if ( postcssResult && Array.isArray( postcssResult.messages ) )
 	{
-		cache.delete( absolutePath );
-		throw error;
-	};
+		postcssResult.messages = postcssResult.messages.concat(
+			result.messages,
+		);
+	}
 	
-	return stat( absolutePath )
-		.then( onStat )
-		.catch( onError );
+	return result.root;
 }
 
 /**

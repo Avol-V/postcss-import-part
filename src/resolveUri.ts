@@ -1,5 +1,5 @@
 import {isAbsolute} from 'path';
-import * as nodeResolve from 'resolve';
+import nodeResolve from 'resolve';
 import {PluginOptions} from './index';
 
 /**
